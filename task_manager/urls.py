@@ -16,6 +16,25 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from boards import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('login/', TokenObtainPairView.as_view(), name="login"),
+    #path('register/', views.Register.as_view(), name="register"),
+    
+    path('create/', views.CreateBoard.as_view(), name="board-create"),
+    path('<int:board_id>/delboard/', views.DeleteBoard.as_view(), name="delete-board"),
+    path('', views.ListBoard.as_view(), name="board-list"),
+    path('list/', views.UserListBoard.as_view(), name="user-board-list"),
+
+    path('<int:board_id>/createtask/', views.CreateTask.as_view(), name="create-task"),
+    path('<int:task_id>/hidetask/', views.HideTask.as_view(), name="hide-task"),
+    path('<int:task_id>/deltask/', views.DeleteTask.as_view(), name="delete-task"),
+
+    path('<int:board_id>/all/', views.ListBoardTask.as_view(), name="board-task"),
+
 ]
